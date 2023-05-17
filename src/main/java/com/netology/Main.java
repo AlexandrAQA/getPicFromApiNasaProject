@@ -1,6 +1,7 @@
 package com.netology;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -8,6 +9,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
     //api_key
@@ -33,6 +38,26 @@ public class Main {
         //send request and get response
         CloseableHttpResponse response = httpClient.execute(new HttpGet(URI));
 
-    }
+        //transform the response into Java Object
+        NasaObject nasaObject = mapper.readValue(response.getEntity().getContent(),NasaObject.class);
+        System.out.println(nasaObject);
 
+        //get response with an image
+        CloseableHttpResponse pictureResponse = httpClient.execute(new HttpGet(nasaObject.getUrl()));
+
+        //get an image name from the URL
+        String[] array = nasaObject.getUrl().split("/");
+        String picName = array[array.length - 1];
+
+        HttpEntity httpEntity = pictureResponse.getEntity();
+
+        //save the image into file
+//        FileOutputStream fileOutputStream = new FileOutputStream(picName);
+//        httpEntity.writeTo(fileOutputStream);
+
+        InputStream in = new URL(nasaObject.getUrl()).openStream();
+        Files.copy(in, Paths.get("C:/Users/alex.panaev/YandexDisk/" + picName));
+        //fileOutputStream.close();
+        in.close();
+    }
 }
