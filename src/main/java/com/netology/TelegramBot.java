@@ -35,19 +35,21 @@ public class TelegramBot extends TelegramLongPollingBot {
         return BOT_TOKEN;
     }
 
-    private void sendMessage(String message){
+    private void sendMessage(String message) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chat_id);
         sendMessage.setText(message);
         try {
             execute(sendMessage);
-        } catch (TelegramApiException exception){
+        } catch (TelegramApiException exception) {
             exception.printStackTrace();
         }
     }
 
+    //Telegram bot functionality
     @Override
     public void onUpdateReceived(Update update) {
+
         if (update.hasMessage()) {
             chat_id = update.getMessage().getChatId();
             switch (update.getMessage().getText()) {
