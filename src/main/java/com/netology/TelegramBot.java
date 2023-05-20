@@ -57,6 +57,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                     sendMessage("Hello, I'm a NASA bot! I send links to pictures upon request." +
                             "Pictures on the NASA website are updated once a day.");
                     break;
+                    case "/say_smth":
+                    sendMessage("Don’t give up! Keep it up!!!");
+                    break;
                 case "/give":
                     try {
                         sendMessage(Utils.getUrl(URI));
