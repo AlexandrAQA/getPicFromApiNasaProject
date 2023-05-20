@@ -2,6 +2,7 @@ package com.netology;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -11,6 +12,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public static final String BOT_TOKEN = "5893916393:AAGQmCIxQu4wgeFKXqZdH8isk-2DO2dkM_g";
     public static final String BOT_USERNAME = "myJavaNasaBot_bot";
     public static final String API_KEY = "1DdGzcwrfTKNfeHMboP8BEglPVTspG0um8kPN4Dn";
+    public static final String chat_id = "";
 
     //URI for connection with private api_key
     public static final String URI =
@@ -34,5 +36,16 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
+    }
+
+    private void sendMessage(String message){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chat_id);
+        sendMessage.setText(message);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException exception){
+            exception.printStackTrace();
+        }
     }
 }
